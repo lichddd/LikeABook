@@ -101,14 +101,20 @@ var pagenum=100;
     
 
 for (var i = 1; i < 100; i++) {
-	$('#book').append('<div style="font-size: 96px;background-color:'+gradients[Math.floor(gradients.length*i/pagenum)]+'">'+i+'</div>');
+	$('[name="book"]').append('<div style="font-size: 96px;background-color:'+gradients[Math.floor(gradients.length*i/pagenum)]+'">'+i+'</div>');
 }
-		$('#book').likeABook();
+		$('[name="book"]').likeABook();
 	
 		
 		$('#num').on('keypress',function (e) {
 			if (e.keyCode==13) {
-				$('#book').data('my.likeABook').goto($(this).val());
+				var $self=$(this);
+				$('[name="book"]').each(function (index,ele) {
+					
+					
+					var aaa="";
+					$(ele).data('my.likeABook').goto($self.val());
+				});
 			}
 			
 			
