@@ -7,7 +7,11 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
 	
   var LikeABook   = function (el,option) {
 //  $(el).on('click',$.proxy(this.mychange,this));
-    var $book=$(el);
+	var self=this;
+	var $book=$(el)
+    this.$book=$book;
+    this.autogo=false;
+    this.usercontrol=true;
     var $bookpages=$('<div class="bookpages"></div>');
     var len=$book.children().length;
     
@@ -47,6 +51,10 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     
     
     $book.find('.bookactivecanvas').on('click','.bookactivecanvas-left',function (e) {
+    				
+		if (self.usercontrol!=true) {
+			return;
+		}
 			var $self=$($book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left')[0]);
 //			$book.children('.bookcanvas').children('.bookpages').children().css('visibility','hidden');
 //			$($book.children('.bookcanvas').children('.bookpages').children('.bookpage-left')[1]).css('visibility','visible');
@@ -63,6 +71,10 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
 //			$self.css('z-index','');
 		});
 	$book.find('.bookactivecanvas').on('click','.bookactivecanvas-right',function (e) {
+		if (self.usercontrol!=true) {
+			return;
+		}
+			
 			var inx=$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-right').length-1;
 			var $self=$($book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-right')[inx]);
 			
@@ -92,7 +104,113 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
   }
 	
 	
+	LikeABook.prototype.goto = function(num) {
+		
+		if (this.autogo==true) {
+			return;
+		}
+		num=Math.floor(Number(num)/2);
+		num;
+		$book=this.$book;
+		var self=this;
+		if(num-$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length>0)
+		{
+			self.autogo=true;
+			self.usercontrol=false;
+			num=num-$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length;
+			if (num>$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-right').length) {
+				num=$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-right').length;
+			}
+			gopager(num);
+			
+		}
+		else if (num-$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length<0) {
+		
+			self.autogo=true;
+			self.usercontrol=false;
+			num=Math.abs(num-$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length);
+			if (num>$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length) {
+				num=$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length;
+			}
+			gopagel(num);
+		}
+		
+		function gopagel(num) {
+			
+			
+			var $self=$($book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left')[0]);
+//			$book.children('.bookcanvas').children('.bookpages').children().css('visibility','hidden');
+//			$($book.children('.bookcanvas').children('.bookpages').children('.bookpage-left')[1]).css('visibility','visible');
+//			var inx=$book.children('.bookcanvas').children('.bookpages').children('.bookpage-right').length-1;
+//			$($book.children('.bookcanvas').children('.bookpages').children('.bookpage-right')[inx]).css('visibility','visible');
+			
+			$self.css('z-index','');
+			
+			$self.removeClass('bookpage-left');
+			$self.addClass('bookpage-right');
+			setTimeout(function () {
+				$self.children($self.hasClass('bookpage-left')?'.bookback':'.bookfront').appendTo($self);
+			},250);
+			
+			num--;
+			
+			if (num>0) {
+			setTimeout(function () {
+			
+				gopagel(num);
+				
+			},50)
+			}
+			else
+			{
+				self.autogo=false
+				self.usercontrol=true;
+			}
 
+		}
+		function gopager(num) {
+			
+			var inx=$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-right').length-1;
+			var $self=$($book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-right')[inx]);
+			
+//			$book.children('.bookcanvas').children('.bookpages').children().css('visibility','hidden');
+//			$($book.children('.bookcanvas').children('.bookpages').children('.bookpage-right')[inx-1]).css('visibility','visible');
+//			$($book.children('.bookcanvas').children('.bookpages').children('.bookpage-left')[0]).css('visibility','visible');
+//			
+
+
+			var $zindexself=$($book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left')[0]);
+			var zindex=$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length-9999;
+			$self.removeClass('bookpage-right');
+			$self.addClass('bookpage-left');
+			
+			setTimeout(function () {
+				$self.children($self.hasClass('bookpage-left')?'.bookback':'.bookfront').appendTo($self);
+//				$self.css('z-index',$book.children('.bookcanvas').children('.bookpages').children('.bookpage-left').length-99);
+				$zindexself.css('z-index',zindex);
+			},250);
+			num--;
+			
+			if (num>0) {
+			setTimeout(function () {
+			
+				gopager(num);
+				
+			},50)
+			}
+			else
+			{
+				self.autogo=false;
+				self.usercontrol=true;
+			}
+
+		}
+		
+
+		
+
+		
+	}
 	
 	
 	
