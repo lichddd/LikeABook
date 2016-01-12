@@ -1,0 +1,99 @@
+
+
+
+
+.bookcanvas
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	
+	
+}
+.bookpages
+{
+	transform-style: preserve-3d;
+  perspective: 500px;
+  -webkit-transform-style: preserve-3d;
+  -webkit-perspective: 500px;
+  -moz-transform-style: preserve-3d;
+  -moz-perspective: 500px;
+  -ms-transform-style: preserve-3d;
+  -ms-perspective: 500px;
+	
+	
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.bookpage
+{
+	
+				  /*transform-style: preserve-3d;*/
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	left: 50%;
+transform-origin: left;
+
+	transition:transform 0.5s linear 0s;
+-moz-transition:transform 0.5s linear 0s;
+-webkit-transition:transform 0.5s linear 0s;
+-o-transition-duration:transform 0.5s linear 0s;
+-ms-transition:transform 0.5s linear 0s;
+}
+.bookpage > div
+{	position: absolute;
+	height: 100%;
+	width: 100%;
+	
+}
+.bookpage-left
+{
+	transform: rotateY(-180deg);
+	
+	
+}
+
+.bookpage-center
+{
+	transform: rotateY(-90deg);
+	
+	
+}
+
+.bookpage-right
+{
+
+}
+.bookfront
+{
+
+		/*background-color: #D6E9C6;*/
+}
+.bookback
+{
+		/*background-color: #D6E9C6;*/
+	transform: rotateY(-180deg) translateZ(1px);
+}
+.bookactivecanvas
+{
+	position: relative;
+		width: 100%;
+	height: 100%;
+	top: -100%;
+	left: 0px;
+}
+.bookactivecanvas-left
+{
+	width: 50%;
+	height: 100%;
+    float: left;
+}
+.bookactivecanvas-right
+{
+		width: 50%;
+	height: 100%;
+    float: left;
+}
