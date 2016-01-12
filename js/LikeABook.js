@@ -111,7 +111,7 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
 		}
 		num=Math.floor(Number(num)/2);
 		num;
-		$book=this.$book;
+		var $book=this.$book;
 		var self=this;
 		if(num-$book.children('.bookcanvas').children('.bookpages').children('.bookpage.bookpage-left').length>0)
 		{
